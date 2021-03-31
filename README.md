@@ -1,6 +1,6 @@
 # Guess The State!
 
-Select the state and write your name correctly.
+Select the state and write it's name correctly
 
 Can be found here: [https://igor-couto.github.io/guess-the-state/](https://igor-couto.github.io/guess-the-state/)
 
