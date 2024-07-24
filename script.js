@@ -6,85 +6,88 @@ const selectAudio = new Audio("sound/select.wav");
 const correctAudio = new Audio("sound/correct.wav");
 const errorAudio = new Audio("sound/error.wav");
 
-let svgDocument;
-
+let mapSvg;
 let selectedState;
 let completed = 0;
 let mistakes = 0;
 
-DefineStatesBehavior();
+document.addEventListener("DOMContentLoaded", function() {
 
-DefineEnterKeyBehavior();
+    function defineStatesBehavior() {
+        mapSvg = document.getElementById("map-svg");
 
-function DefineStatesBehavior() {
-  const mapSvg = document.getElementById("map-svg");
+        mapSvg.addEventListener(
+            "load",
+            () => {
+                const states = mapSvg.querySelector("#Estados").children;
 
-  mapSvg.addEventListener(
-    "load",
-    () => {
-      svgDocument = mapSvg.contentDocument;
-      let states = svgDocument.getElementById("Estados").children;
+                Array.from(states).forEach(state => {
+                    state.style.cursor = "pointer";
+                    state.onclick = () => selectState(state.id);
+                });
+            },
+            false
+        );
+    }
 
-      for (i = 0; i < states.length; i++) {
-        let state = states[i];
-        state.style = "cursor: pointer";
-        state.onclick = () => selectState(state.id);
-      }
-    },
-    false
-  );
-}
+    function defineEnterKeyBehavior() {
+        window.addEventListener(
+            "keydown",
+            (event) => {
+                if (event.key === "Enter") {
+                    document.getElementById("btn").click();
+                }
+            },
+            true
+        );
+    }
 
-function DefineEnterKeyBehavior() {
-  window.addEventListener(
-    "keydown",
-    (event) => {
-      if (event.key == "Enter") document.getElementById("btn").click();
-    },
-    true
-  );
-}
+    function selectState(stateName) {
+        selectAudio.play();
+        selectedState = stateName;
+        answerInput.focus();
+    }
 
-function selectState(stateName) {
-  selectAudio.play();
-  selectedState = stateName;
-  answerInput.focus();
-}
+    defineStatesBehavior();
+    defineEnterKeyBehavior();
+});
 
 function validateAnswer() {
-  if (!selectedState) return;
+    if (!selectedState) return;
 
-  let answer = clearText(answerInput.value);
+    const answer = clearText(answerInput.value);
 
-  if (clearText(selectedState) === answer) {
-    correctAudio.play();
+    if (clearText(selectedState) === answer) {
+        correctAudio.play();
+        completed++;
+        completedElement.textContent = completed;
+        answerInput.value = "";
 
-    completed++;
-    completedElement.innerHTML = completed;
+        const stateElement = mapSvg.getElementById(selectedState);
+        const stateStyle = getComputedStyle(stateElement);
 
-    answerInput.value = "";
-
-    let stateElement = svgDocument.getElementById(selectedState);
-    let stateStyle = getComputedStyle(stateElement);
-
-    stateElement.onclick = null;
-    stateElement.style = "cursor: auto;";
-    stateElement.style = "fill: " + stateStyle.fill.replace(".5", "1");
-  } else {
-    errorAudio.play();
-    mistakes++;
-    mistakesElement.innerHTML = mistakes;
-  }
+        stateElement.onclick = null;
+        stateElement.style.cursor = "auto";
+        stateElement.style.fill = stateStyle.fill.replace(".5", "1");
+    } else {
+        errorAudio.play();
+        mistakes++;
+        mistakesElement.textContent = mistakes;
+    }
 }
 
 function clearText(text) {
-  text = text.toLowerCase();
-  text = text.replace(" ", "");
-  text = text.replace(new RegExp("[áàâã]", "gi"), "a");
-  text = text.replace(new RegExp("[éèê]", "gi"), "e");
-  text = text.replace(new RegExp("[íìî]", "gi"), "i");
-  text = text.replace(new RegExp("[óòôõ]", "gi"), "o");
-  text = text.replace(new RegExp("[úùû]", "gi"), "u");
-  text = text.replace(new RegExp("[ç]", "gi"), "c");
-  return text;
+    text = text.toLowerCase().replace(/\s/g, "");
+    const accentMap = {
+        a: /[áàâã]/gi,
+        e: /[éèê]/gi,
+        i: /[íìî]/gi,
+        o: /[óòôõ]/gi,
+        u: /[úùû]/gi,
+        c: /[ç]/gi
+    };
+    for (const letter in accentMap) {
+        text = text.replace(accentMap[letter], letter);
+    }
+    return text;
 }

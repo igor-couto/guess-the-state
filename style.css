@@ -1,45 +1,87 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 22px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 body {
-  margin: 15px;
-  font-family: "Newsreader";
-  font-size: 22px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-#btn {
-  background-color: #239fff;
-  color: white;
-  width: 75px;
-  height: 25px;
-  border: none;
-  outline: none;
-}
-
-input {
-  height: 25px;
-  padding: 0 10px 0 10px;
-  border: 1px solid #888888;
-  outline: none;
-}
-
-#content {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-#inputs {
-  margin: 0 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-wrap: wrap;
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 #map {
-  border-radius: 8px;
-  box-shadow: 0 -1px 5px rgb(128 134 139 / 9%), 0 3px 5px rgb(128 134 139 / 6%),
-    0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px rgb(60 64 67 / 15%);
-  box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 -1px 5px rgb(128 134 139 / 9%), 0 3px 5px rgb(128 134 139 / 6%), 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px rgb(60 64 67 / 15%);
+    box-sizing: border-box;
+    margin: 20px 0;
+}
+
+#inputs {
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#btn {
+    background-color: #61A229;
+    color: #fff;
+    width: 75px;
+    height: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#btn:hover {
+    background-color: #4E8221;
+}
+
+footer {
+    background-color: #454545;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+footer a {
+    color: #00B6F9;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+input {
+    height: 25px;
+    padding: 0 10px;
+    border: 1px solid #888888;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: #005B21;
 }
