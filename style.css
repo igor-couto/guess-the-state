@@ -44,7 +44,7 @@ main {
 }
 
 #btn {
-    background-color: #61A229;
+    background-color: #4C8221;
     color: #fff;
     width: 75px;
     height: 25px;
@@ -55,7 +55,7 @@ main {
 }
 
 #btn:hover {
-    background-color: #4E8221;
+    background-color: #61A229;
 }
 
 footer {
@@ -66,7 +66,7 @@ footer {
 }
 
 footer a {
-    color: #00B6F9;
+    color: #2EBFFF;
     text-decoration: none;
 }
 
