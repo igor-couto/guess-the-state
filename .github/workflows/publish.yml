@@ -2,6 +2,8 @@ name: Publish Website
 
 on:
   push:
+    paths-ignore:
+      - '**/README.md'
     branches:
       - main
 
