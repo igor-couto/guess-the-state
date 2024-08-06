@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#fff" />
-    <meta name="description" content="Adivinhe o estado" />
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <meta name="description" content="GeoStates is a game about guessing the names of states" />
+    <link rel="icon" href="./assets/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <title>Adivinhe o Estado</title>
+    <title>GeoStates</title>
 </head>
 <body>
     <main>
-        <h1>Adivinhe o Estado</h1>
+        <header>
+            <img src="./assets/logo.svg" alt="Geostates logo" width="326" height="77">
+            <h1>Name the states of Brazil</h1>
+        </header>
         <section id="map">
 
             <svg
             xmlns:svg="http://www.w3.org/2000/svg"
             xmlns="http://www.w3.org/2000/svg"
             id="map-svg" 
-            aria-label="Mapa do Brasil"
+            aria-label="Brazil's map"
             width="220mm"
             height="194mm"
             viewBox="0 0 220000 194010"
@@ -36,7 +39,6 @@
                 .fil0 {
                 fill: none;
                 }
-        
                 .RegiaoNorte {
                 fill: rgba(120, 155, 2, 0.5);
                 }
@@ -268,26 +270,20 @@
             </svg>
 
 
-
-
-
-
-
-
         </section>
-        <div id="inputs">
-            <div>
-                <input type="text" id="answerInput" aria-label="Digite o nome do estado" />
-                <button id="btn" class="btn" onclick="validateAnswer()">Adivinhe</button>
+        <section id="inputs">
+            <div class="input-group">
+                <input type="text" id="answerInput" aria-label="Enter the name of the state" />
+                <button id="btn" class="btn" onclick="validateAnswer()">Guess</button>
             </div>
-            <div>
-                <p>Concluídos: <span id="concluidos">0</span> / 27</p>
-                <p>Erros: <span id="erros">0</span></p>
+            <div class="stats">
+                <p>Completed: <span id="completed">0</span> / 27</p>
+                <p>Mistakes: <span id="mistakes">0</span></p>
             </div>
-        </div>
+        </section>
     </main>
     <footer>
-        <p>&copy; Igor Couto 2024 | <a href="https://github.com/igor-couto/guess-the-state" target="_blank">GitHub</a></p>
+        <p>&copy; GeoStates 2024 | <a href="https://github.com/igor-couto/guess-the-state" target="_blank">GitHub</a></p>
     </footer>
     <script defer src="./script.js"></script>
 </body>

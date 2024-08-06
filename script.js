@@ -1,15 +1,36 @@
 const answerInput = document.getElementById("answerInput");
-const completedElement = document.getElementById("concluidos");
-const mistakesElement = document.getElementById("erros");
+const completedElement = document.getElementById("completed");
+const mistakesElement = document.getElementById("mistakes");
 
-const selectAudio = new Audio("sound/select.wav");
-const correctAudio = new Audio("sound/correct.wav");
-const errorAudio = new Audio("sound/error.wav");
+const selectAudio = new Audio("assets/sound/select.wav");
+const correctAudio = new Audio("assets/sound/correct.wav");
+const errorAudio = new Audio("assets/sound/error.wav");
 
 let mapSvg;
 let selectedState;
 let completed = 0;
 let mistakes = 0;
+
+function selectState(stateName) {
+    selectAudio.play();
+
+    if (selectedState) {
+        const previousStateElement = mapSvg.getElementById(selectedState);
+        previousStateElement.classList.remove("selected-state");
+    }
+
+    selectedState = stateName;
+    const currentStateElement = mapSvg.getElementById(selectedState);
+    
+    const bbox = currentStateElement.getBBox();
+    const centerX = bbox.x + bbox.width / 2;
+    const centerY = bbox.y + bbox.height / 2;
+    currentStateElement.style.transformOrigin = `${centerX}px ${centerY}px`;
+
+    currentStateElement.classList.add("selected-state");
+
+    answerInput.focus();
+}
 
 document.addEventListener("DOMContentLoaded", function() {
 
@@ -25,6 +46,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     state.style.cursor = "pointer";
                     state.onclick = () => selectState(state.id);
                 });
+
+                selectRandomState(states);
             },
             false
         );
@@ -42,18 +65,23 @@ document.addEventListener("DOMContentLoaded", function() {
         );
     }
 
-    function selectState(stateName) {
-        selectAudio.play();
-        selectedState = stateName;
-        answerInput.focus();
-    }
-
     defineStatesBehavior();
     defineEnterKeyBehavior();
 });
 
+function selectRandomState(states) {
+    const selectableStates = Array.from(states).filter(state => state.style.cursor === "pointer");
+    if (selectableStates.length === 0) {
+        alert("Congratulations! You've completed the game.");
+        return;
+    }
+    const randomIndex = Math.floor(Math.random() * selectableStates.length);
+    const randomState = selectableStates[randomIndex];
+    selectState(randomState.id);
+}
+
 function validateAnswer() {
-    if (!selectedState) return;
+    if (!selectedState || !answerInput.value) return;
 
     const answer = clearText(answerInput.value);
 
@@ -69,6 +97,12 @@ function validateAnswer() {
         stateElement.onclick = null;
         stateElement.style.cursor = "auto";
         stateElement.style.fill = stateStyle.fill.replace(".5", "1");
+        stateElement.classList.remove("selected-state");
+
+        selectedState = null;
+
+        const states = mapSvg.querySelector("#Estados").children;
+        selectRandomState(states);
     } else {
         errorAudio.play();
         mistakes++;
