@@ -1,127 +1,56 @@
-const answerInput = document.getElementById("answerInput");
-const completedElement = document.getElementById("completed");
-const mistakesElement = document.getElementById("mistakes");
+let slideIndex = 0;
 
-const selectAudio = new Audio("assets/sound/select.wav");
-const correctAudio = new Audio("assets/sound/correct.wav");
-const errorAudio = new Audio("assets/sound/error.wav");
+function showSlides() {
+    const slides = document.querySelectorAll('.card');
+    const carousel = document.querySelector('.carousel');
 
-let mapSvg;
-let selectedState;
-let completed = 0;
-let mistakes = 0;
+    const cardWidth = slides[0].offsetWidth; // Width of a single card
+    const margin = 20; // Margin between cards
+    const totalCardWidth = cardWidth + margin; // Total width of a card including margin
 
-function selectState(stateName) {
-    selectAudio.play();
+    // Calculate the total width of the carousel
+    const carouselWidth = carousel.offsetWidth;
 
-    if (selectedState) {
-        const previousStateElement = mapSvg.getElementById(selectedState);
-        previousStateElement.classList.remove("selected-state");
-    }
+    // Calculate the offset needed to center the active slide
+    const translateX = -(slideIndex * totalCardWidth) + (carouselWidth / 2) - (cardWidth / 2);
 
-    selectedState = stateName;
-    const currentStateElement = mapSvg.getElementById(selectedState);
-    
-    const bbox = currentStateElement.getBBox();
-    const centerX = bbox.x + bbox.width / 2;
-    const centerY = bbox.y + bbox.height / 2;
-    currentStateElement.style.transformOrigin = `${centerX}px ${centerY}px`;
+    // Apply the transform to center the active slide
+    carousel.style.transform = `translateX(${translateX}px)`;
 
-    currentStateElement.classList.add("selected-state");
+    // Update each card's state
+    slides.forEach((slide, index) => {
+        slide.classList.remove('active');
+        slide.style.transform = 'scale(0.8)';
+        slide.style.opacity = '0.5';
+    });
 
-    answerInput.focus();
+    // Set the active slide
+    slides[slideIndex].classList.add('active');
+    slides[slideIndex].style.transform = 'scale(1.1)';
+    slides[slideIndex].style.opacity = '1';
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+function prevSlide() {
+    const slides = document.querySelectorAll('.card');
+    slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+    showSlides();
+}
 
-    function defineStatesBehavior() {
-        mapSvg = document.getElementById("map-svg");
+function nextSlide() {
+    const slides = document.querySelectorAll('.card');
+    slideIndex = (slideIndex + 1) % slides.length;
+    showSlides();
+}
 
-        mapSvg.addEventListener(
-            "load",
-            () => {
-                const states = mapSvg.querySelector("#Estados").children;
-
-                Array.from(states).forEach(state => {
-                    state.style.cursor = "pointer";
-                    state.onclick = () => selectState(state.id);
-                });
-
-                selectRandomState(states);
-            },
-            false
-        );
+function handleKeyDown(event) {
+    if (event.key === 'ArrowLeft') {
+        prevSlide();
+    } else if (event.key === 'ArrowRight') {
+        nextSlide();
     }
+}
 
-    function defineEnterKeyBehavior() {
-        window.addEventListener(
-            "keydown",
-            (event) => {
-                if (event.key === "Enter") {
-                    document.getElementById("btn").click();
-                }
-            },
-            true
-        );
-    }
-
-    defineStatesBehavior();
-    defineEnterKeyBehavior();
+document.addEventListener('DOMContentLoaded', () => {
+    showSlides();
+    document.addEventListener('keydown', handleKeyDown);
 });
-
-function selectRandomState(states) {
-    const selectableStates = Array.from(states).filter(state => state.style.cursor === "pointer");
-    if (selectableStates.length === 0) {
-        alert("Congratulations! You've completed the game.");
-        return;
-    }
-    const randomIndex = Math.floor(Math.random() * selectableStates.length);
-    const randomState = selectableStates[randomIndex];
-    selectState(randomState.id);
-}
-
-function validateAnswer() {
-    if (!selectedState || !answerInput.value) return;
-
-    const answer = clearText(answerInput.value);
-
-    if (clearText(selectedState) === answer) {
-        correctAudio.play();
-        completed++;
-        completedElement.textContent = completed;
-        answerInput.value = "";
-
-        const stateElement = mapSvg.getElementById(selectedState);
-        const stateStyle = getComputedStyle(stateElement);
-
-        stateElement.onclick = null;
-        stateElement.style.cursor = "auto";
-        stateElement.style.fill = stateStyle.fill.replace(".5", "1");
-        stateElement.classList.remove("selected-state");
-
-        selectedState = null;
-
-        const states = mapSvg.querySelector("#Estados").children;
-        selectRandomState(states);
-    } else {
-        errorAudio.play();
-        mistakes++;
-        mistakesElement.textContent = mistakes;
-    }
-}
-
-function clearText(text) {
-    text = text.toLowerCase().replace(/\s/g, "");
-    const accentMap = {
-        a: /[áàâã]/gi,
-        e: /[éèê]/gi,
-        i: /[íìî]/gi,
-        o: /[óòôõ]/gi,
-        u: /[úùû]/gi,
-        c: /[ç]/gi
-    };
-    for (const letter in accentMap) {
-        text = text.replace(accentMap[letter], letter);
-    }
-    return text;
-}
