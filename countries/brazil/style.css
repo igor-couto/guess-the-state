@@ -47,6 +47,41 @@ main {
     box-sizing: border-box;
     margin: 20px 0;
     background-color: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 360px;
+    width: min(900px, calc(100vw - 40px));
+}
+
+#map svg {
+    display: block;
+    height: auto;
+    max-height: 62vh;
+    width: 100%;
+}
+
+.map-loading,
+.map-error {
+    color: #3d3d3d;
+    padding: 32px;
+}
+
+.guessable-region {
+    cursor: pointer;
+}
+
+.guessable-region:focus {
+    outline: none;
+}
+
+.guessable-region:focus-visible {
+    filter: drop-shadow(0 0 8px rgba(48, 49, 61, 0.55));
+}
+
+.completed-state {
+    cursor: auto;
+    pointer-events: none;
 }
 
 #inputs {

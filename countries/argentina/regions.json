@@ -1,0 +1,7 @@
+{
+    "Noroeste": ["Jujuy", "Salta", "Tucumán", "Catamarca", "La Rioja", "Santiago del Estero"],
+    "Noreste": ["Formosa", "Chaco", "Corrientes", "Misiones"],
+    "Cuyo": ["Mendoza", "San Juan", "San Luis"],
+    "Pampeana": ["Buenos Aires", "Ciudad de Buenos Aires", "Córdoba", "Santa Fe", "Entre Ríos", "La Pampa"],
+    "Patagonia": ["Neuquén", "Río Negro", "Chubut", "Santa Cruz", "Tierra del Fuego"]
+}

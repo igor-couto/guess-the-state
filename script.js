@@ -50,7 +50,32 @@ function handleKeyDown(event) {
     }
 }
 
+function setupBackgroundVideo() {
+    const video = document.getElementById('background-video');
+    if (!video) return;
+
+    // Only autoplay the looping video when the user hasn't asked for reduced
+    // motion; otherwise leave it paused on its poster (and never fetch it).
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => {
+        if (reduceMotion.matches) {
+            video.pause();
+        } else {
+            video.play().catch(() => {});
+        }
+    };
+
+    sync();
+    reduceMotion.addEventListener('change', sync);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelectorAll('.card');
+    const firstEnabled = Array.from(slides).findIndex(card => !card.classList.contains('disabled'));
+    slideIndex = firstEnabled === -1 ? 0 : firstEnabled;
+
     showSlides();
+    setupBackgroundVideo();
     document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', showSlides);
 });

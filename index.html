@@ -7,6 +7,7 @@
     <meta name="description" content="GeoStates is a game about guessing the names of states" />
     <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     <title>GeoStates</title>
+    <link rel="stylesheet" href="assets/theme.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
     </header>
     <main>
         <div class="video-container">
-            <video autoplay muted loop id="background-video">
+            <video id="background-video" muted loop playsinline preload="none" poster="assets/video-poster.jpg">
                 <source src="assets/video.mp4" type="video/mp4">
                 Your browser does not support HTML5 video.
             </video>
@@ -23,10 +24,9 @@
 
         <section class="carousel-container">
             <div class="carousel">
-                <a href="#" class="card disabled">
-                    <img src="assets/image2.png" alt="Image 2">
+                <a href="countries/argentina/index.html" class="card">
+                    <img src="assets/image2.png" alt="Argentina">
                     <h2>Argentina</h2>
-                    <div class="overlay">Coming Soon</div>
                 </a>
                 <a href="countries/brazil/index.html" class="card">
                     <img src="assets/image1.png" alt="Image 1">
@@ -50,8 +50,12 @@
             </div>
 
         </section>
-        <img src="assets/left.svg" alt="Previous" class="prev" onclick="prevSlide()">
-        <img src="assets/right.svg" alt="Next" class="next" onclick="nextSlide()">
+        <button type="button" class="carousel-arrow carousel-arrow--prev" aria-label="Previous country" onclick="prevSlide()">
+            <img src="assets/left.svg" alt="">
+        </button>
+        <button type="button" class="carousel-arrow carousel-arrow--next" aria-label="Next country" onclick="nextSlide()">
+            <img src="assets/right.svg" alt="">
+        </button>
     </main>
 
     <script src="script.js"></script>
