@@ -46,12 +46,13 @@ header {
 }
 
 .carousel-container {
+    background-color: #00000017;
+    padding: 38px 0;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
-    max-width: 860px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -157,8 +158,8 @@ header {
 
 .carousel-arrow img {
     display: block;
-    width: 22px;
-    height: 22px;
+    width: 60px;
+    height: 60px;
 }
 
 .carousel-arrow--prev {
